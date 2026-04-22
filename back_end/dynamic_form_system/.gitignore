@@ -1,0 +1,46 @@
+# ===========================================
+[Bb]in/
+[Oo]bj/
+[Oo]ut/
+
+# ==========================================
+# Visual Studio
+.vs/
+*.user
+*.userosscache
+*.sln.docstates
+*.suo
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# JetBrains Rider
+.idea/
+*.sln.iml
+
+# ==========================================
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Mac OS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# ==========================================
+appsettings.Development.json
+appsettings.json
+*.env
+.env*
+
+# ==========================================
+*.log
+logs/
+TestResults/
