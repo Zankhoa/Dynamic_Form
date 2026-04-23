@@ -1,7 +1,40 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "D:\\work\\test\\Dynamic_Form\\back_end\\dynamic_form_system\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{21AE9CAD-8126-4A7B-8357-C5F121D1896F}|dynamic_form_system\\dynamic_form_system.csproj|d:\\work\\test\\dynamic_form\\back_end\\dynamic_form_system\\dynamic_form_system\\interface\\iformservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{21AE9CAD-8126-4A7B-8357-C5F121D1896F}|dynamic_form_system\\dynamic_form_system.csproj|solutionrelative:dynamic_form_system\\interface\\iformservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{21AE9CAD-8126-4A7B-8357-C5F121D1896F}|dynamic_form_system\\dynamic_form_system.csproj|d:\\work\\test\\dynamic_form\\back_end\\dynamic_form_system\\dynamic_form_system\\interface\\iformrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{21AE9CAD-8126-4A7B-8357-C5F121D1896F}|dynamic_form_system\\dynamic_form_system.csproj|solutionrelative:dynamic_form_system\\interface\\iformrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{21AE9CAD-8126-4A7B-8357-C5F121D1896F}|dynamic_form_system\\dynamic_form_system.csproj|d:\\work\\test\\dynamic_form\\back_end\\dynamic_form_system\\dynamic_form_system\\controllers\\admin\\formscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{21AE9CAD-8126-4A7B-8357-C5F121D1896F}|dynamic_form_system\\dynamic_form_system.csproj|solutionrelative:dynamic_form_system\\controllers\\admin\\formscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{21AE9CAD-8126-4A7B-8357-C5F121D1896F}|dynamic_form_system\\dynamic_form_system.csproj|d:\\work\\test\\dynamic_form\\back_end\\dynamic_form_system\\dynamic_form_system\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{21AE9CAD-8126-4A7B-8357-C5F121D1896F}|dynamic_form_system\\dynamic_form_system.csproj|solutionrelative:dynamic_form_system\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{21AE9CAD-8126-4A7B-8357-C5F121D1896F}|dynamic_form_system\\dynamic_form_system.csproj|d:\\work\\test\\dynamic_form\\back_end\\dynamic_form_system\\dynamic_form_system\\repository\\formrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{21AE9CAD-8126-4A7B-8357-C5F121D1896F}|dynamic_form_system\\dynamic_form_system.csproj|solutionrelative:dynamic_form_system\\repository\\formrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{21AE9CAD-8126-4A7B-8357-C5F121D1896F}|dynamic_form_system\\dynamic_form_system.csproj|d:\\work\\test\\dynamic_form\\back_end\\dynamic_form_system\\dynamic_form_system\\services\\formservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{21AE9CAD-8126-4A7B-8357-C5F121D1896F}|dynamic_form_system\\dynamic_form_system.csproj|solutionrelative:dynamic_form_system\\services\\formservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{21AE9CAD-8126-4A7B-8357-C5F121D1896F}|dynamic_form_system\\dynamic_form_system.csproj|d:\\work\\test\\dynamic_form\\back_end\\dynamic_form_system\\dynamic_form_system\\dtos\\responses\\formdetaildto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{21AE9CAD-8126-4A7B-8357-C5F121D1896F}|dynamic_form_system\\dynamic_form_system.csproj|solutionrelative:dynamic_form_system\\dtos\\responses\\formdetaildto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{21AE9CAD-8126-4A7B-8357-C5F121D1896F}|dynamic_form_system\\dynamic_form_system.csproj|d:\\work\\test\\dynamic_form\\back_end\\dynamic_form_system\\dynamic_form_system\\dtos\\responses\\apiresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{21AE9CAD-8126-4A7B-8357-C5F121D1896F}|dynamic_form_system\\dynamic_form_system.csproj|solutionrelative:dynamic_form_system\\dtos\\responses\\apiresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,8 +42,22 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 25,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "FormsController.cs",
+              "DocumentMoniker": "D:\\work\\test\\Dynamic_Form\\back_end\\dynamic_form_system\\dynamic_form_system\\Controllers\\Admin\\FormsController.cs",
+              "RelativeDocumentMoniker": "dynamic_form_system\\Controllers\\Admin\\FormsController.cs",
+              "ToolTip": "D:\\work\\test\\Dynamic_Form\\back_end\\dynamic_form_system\\dynamic_form_system\\Controllers\\Admin\\FormsController.cs",
+              "RelativeToolTip": "dynamic_form_system\\Controllers\\Admin\\FormsController.cs",
+              "ViewState": "AgIAACAAAAAAAAAAAAAswCsAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-23T16:46:10.402Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:8:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
@@ -90,6 +137,97 @@
             {
               "$type": "Bookmark",
               "Name": "ST:1:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\work\\test\\Dynamic_Form\\back_end\\dynamic_form_system\\dynamic_form_system\\appsettings.json",
+              "RelativeDocumentMoniker": "dynamic_form_system\\appsettings.json",
+              "ToolTip": "D:\\work\\test\\Dynamic_Form\\back_end\\dynamic_form_system\\dynamic_form_system\\appsettings.json",
+              "RelativeToolTip": "dynamic_form_system\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-04-23T18:51:40.427Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "FormDetailDto.cs",
+              "DocumentMoniker": "D:\\work\\test\\Dynamic_Form\\back_end\\dynamic_form_system\\dynamic_form_system\\DTOs\\Responses\\FormDetailDto.cs",
+              "RelativeDocumentMoniker": "dynamic_form_system\\DTOs\\Responses\\FormDetailDto.cs",
+              "ToolTip": "D:\\work\\test\\Dynamic_Form\\back_end\\dynamic_form_system\\dynamic_form_system\\DTOs\\Responses\\FormDetailDto.cs",
+              "RelativeToolTip": "dynamic_form_system\\DTOs\\Responses\\FormDetailDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAoAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-23T18:02:57.017Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "FormRepository.cs",
+              "DocumentMoniker": "D:\\work\\test\\Dynamic_Form\\back_end\\dynamic_form_system\\dynamic_form_system\\Repository\\FormRepository.cs",
+              "RelativeDocumentMoniker": "dynamic_form_system\\Repository\\FormRepository.cs",
+              "ToolTip": "D:\\work\\test\\Dynamic_Form\\back_end\\dynamic_form_system\\dynamic_form_system\\Repository\\FormRepository.cs",
+              "RelativeToolTip": "dynamic_form_system\\Repository\\FormRepository.cs",
+              "ViewState": "AgIAAD4AAAAAAAAAAADwv1QAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-23T17:17:17.272Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "FormService.cs",
+              "DocumentMoniker": "D:\\work\\test\\Dynamic_Form\\back_end\\dynamic_form_system\\dynamic_form_system\\Services\\FormService.cs",
+              "RelativeDocumentMoniker": "dynamic_form_system\\Services\\FormService.cs",
+              "ToolTip": "D:\\work\\test\\Dynamic_Form\\back_end\\dynamic_form_system\\dynamic_form_system\\Services\\FormService.cs",
+              "RelativeToolTip": "dynamic_form_system\\Services\\FormService.cs",
+              "ViewState": "AgIAAFIAAAAAAAAAAAAkwGkAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-23T16:39:37.362Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "IFormService.cs",
+              "DocumentMoniker": "D:\\work\\test\\Dynamic_Form\\back_end\\dynamic_form_system\\dynamic_form_system\\Interface\\IFormService.cs",
+              "RelativeDocumentMoniker": "dynamic_form_system\\Interface\\IFormService.cs",
+              "ToolTip": "D:\\work\\test\\Dynamic_Form\\back_end\\dynamic_form_system\\dynamic_form_system\\Interface\\IFormService.cs",
+              "RelativeToolTip": "dynamic_form_system\\Interface\\IFormService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-23T16:34:55.184Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "IFormRepository.cs",
+              "DocumentMoniker": "D:\\work\\test\\Dynamic_Form\\back_end\\dynamic_form_system\\dynamic_form_system\\Interface\\IFormRepository.cs",
+              "RelativeDocumentMoniker": "dynamic_form_system\\Interface\\IFormRepository.cs",
+              "ToolTip": "D:\\work\\test\\Dynamic_Form\\back_end\\dynamic_form_system\\dynamic_form_system\\Interface\\IFormRepository.cs",
+              "RelativeToolTip": "dynamic_form_system\\Interface\\IFormRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-23T16:25:12.755Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "ApiResponse.cs",
+              "DocumentMoniker": "D:\\work\\test\\Dynamic_Form\\back_end\\dynamic_form_system\\dynamic_form_system\\DTOs\\Responses\\ApiResponse.cs",
+              "RelativeDocumentMoniker": "dynamic_form_system\\DTOs\\Responses\\ApiResponse.cs",
+              "ToolTip": "D:\\work\\test\\Dynamic_Form\\back_end\\dynamic_form_system\\dynamic_form_system\\DTOs\\Responses\\ApiResponse.cs",
+              "RelativeToolTip": "dynamic_form_system\\DTOs\\Responses\\ApiResponse.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-23T18:00:15.074Z",
+              "EditorCaption": ""
             }
           ]
         },

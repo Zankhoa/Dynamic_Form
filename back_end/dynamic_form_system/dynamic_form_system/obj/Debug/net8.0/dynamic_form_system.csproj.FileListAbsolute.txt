@@ -144,3 +144,4 @@ D:\work\test\Dynamic_Form\back_end\dynamic_form_system\dynamic_form_system\obj\D
 D:\work\test\Dynamic_Form\back_end\dynamic_form_system\dynamic_form_system\obj\Debug\net8.0\dynamic_form_system.pdb
 D:\work\test\Dynamic_Form\back_end\dynamic_form_system\dynamic_form_system\obj\Debug\net8.0\dynamic_form_system.genruntimeconfig.cache
 D:\work\test\Dynamic_Form\back_end\dynamic_form_system\dynamic_form_system\obj\Debug\net8.0\ref\dynamic_form_system.dll
+D:\work\test\Dynamic_Form\back_end\dynamic_form_system\dynamic_form_system\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

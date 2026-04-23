@@ -21,10 +21,8 @@
 
   <ItemGroup>
     <Folder Include="Data\" />
-    <Folder Include="DTOs\" />
     <Folder Include="Middlewares\" />
     <Folder Include="Validation\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: dynamicform_db
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=VnCoder@123456! # Mật khẩu sa của DB
+    ports:
+      - "1433:1433" 
+    volumes:
+      - sql_data:/var/opt/mssql # Giữ lại dữ liệu DB ngay cả khi tắt Docker
+    networks:
+      - dynamicform_network
+
+  api:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: dynamicform_api
+    ports:
+      - "8080:8080" # Map port 8080 ra ngoài. Lát chạy xong vào: http://localhost:8080/swagger
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=DynamicFormDb;User Id=sa;Password=VnCoder@123456!;TrustServerCertificate=True;
+    depends_on:
+      - sqlserver # Bắt buộc DB phải chạy lên trước thì API mới được chạy
+    networks:
+      - dynamicform_network
+
+volumes:
+  sql_data: 
+
+networks:
+  dynamicform_network:
+    driver: bridge
