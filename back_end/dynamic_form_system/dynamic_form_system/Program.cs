@@ -1,5 +1,6 @@
 using dynamic_form_system.Data;
 using dynamic_form_system.Interface;
+using dynamic_form_system.Middlewares;
 using dynamic_form_system.Repository;
 using dynamic_form_system.Services;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +23,7 @@ builder.Services.AddScoped<IFormRepository, FormRepository>();
 builder.Services.AddScoped<IFormService, FormService>();
 
 var app = builder.Build();
+app.UseMiddleware<GlobalExceptionMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

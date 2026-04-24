@@ -115,15 +115,5 @@ namespace dynamic_form_system.Controllers.Admin
                 return NotFound(errorResponse);
             }
         }
-
-
-        // 2. GET /api/forms/active - Danh sách form active cho nhân viên 
-        //// (Phải đặt trên {id} để tránh conflict route)
-        //[HttpGet("active")]
-        //public async Task<IActionResult> GetActiveForms()
-        //{
-        //    var result = await _formService.GetActiveFormsAsync();
-        //    return Ok(new ApiResponse<object> { Data = result });
-        //}
     }
 }
