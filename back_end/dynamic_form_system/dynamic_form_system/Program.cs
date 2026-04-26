@@ -1,8 +1,10 @@
 using dynamic_form_system.Data;
 using dynamic_form_system.Interface;
+using dynamic_form_system.Interface.Validate;
 using dynamic_form_system.Middlewares;
 using dynamic_form_system.Repository;
 using dynamic_form_system.Services;
+using dynamic_form_system.Validation;
 using Microsoft.EntityFrameworkCore;
 using System;
 
@@ -19,8 +21,13 @@ builder.Services.AddSwaggerGen();
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
 
+builder.Services.AddScoped<IFieldRepository, FieldRepository>();
 builder.Services.AddScoped<IFormRepository, FormRepository>();
 builder.Services.AddScoped<IFormService, FormService>();
+builder.Services.AddScoped<IFieldService, FieldService>();
+builder.Services.AddScoped<IFieldValidate, FieldValidate>();
+builder.Services.AddScoped<IFormValidate, FormValidate>();
+
 
 var app = builder.Build();
 app.UseMiddleware<GlobalExceptionMiddleware>();

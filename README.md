@@ -55,12 +55,3 @@ Khởi chạy ứng dụng:
 ```Bash
 dotnet run
 ```
-## API Documentation (Swagger)
-Sau khi ứng dụng khởi chạy thành công, bạn có thể truy cập giao diện Swagger để xem tài liệu chi tiết và test trực tiếp các API:
-URL: http://localhost:8080/swagger (Nếu chạy bằng Docker) * URL: https://localhost:<port>/swagger (Nếu chạy Local - xem port thực tế trong terminal)
-
-Luồng kiểm thử gợi ý:
-Admin: Gọi API POST /api/admin/forms để tạo form mới.
-Admin: Gọi API POST /api/admin/forms/{id}/fields để thêm các field (như text, date, number) vào form.
-Nhân viên: Gọi API GET /api/forms/active để xem danh sách form.
-Nhân viên: Gọi API POST /api/forms/{id}/submit để nộp dữ liệu. Thử nhập sai định dạng để xem hệ thống trả về lỗi Validation.

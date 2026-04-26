@@ -1,6 +1,5 @@
 ﻿using dynamic_form_system.Data;
 using dynamic_form_system.DTOs.Responses;
-using dynamic_form_system.Entities;
 using dynamic_form_system.Interface;
 using Microsoft.EntityFrameworkCore;
 
@@ -87,6 +86,20 @@ namespace dynamic_form_system.Repository
         {
             _context.Forms.Remove(form);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<FormAdminListDto>> GetActiveFormsAsync()
+        {
+            var activeForms = await _context.Forms.Where(f => f.Status == "Active")
+                //rderBy(f => f.DisplayOrder)
+                .OrderByDescending(f => f.CreatedAt).Select(f => new FormAdminListDto {
+                    Id = f.Id,
+                    Title = f.Title,
+                    Description = f.Description,
+                    Status = f.Status,
+                    CreatedAt = f.CreatedAt
+                }).AsNoTracking().ToListAsync();
+            return activeForms;
         }
     }
 }

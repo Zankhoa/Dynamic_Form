@@ -9,6 +9,7 @@ namespace dynamic_form_system.Interface
         Task<Guid> CreateFormAsync(CreateFormRequestDto request);
         Task<FormDetailDto> GetFormByIdAsync(Guid id);
         Task UpdateFormAsync(Guid id, UpdateFormRequestDto request);
-        Task DeleteFormAsync(Guid id);  
+        Task DeleteFormAsync(Guid id);
+        Task<IEnumerable<FormAdminListDto>> GetActiveFormsAsync();
     }
 }

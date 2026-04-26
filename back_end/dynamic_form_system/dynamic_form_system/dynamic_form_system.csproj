@@ -20,9 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\Employee\" />
     <Folder Include="Data\" />
-    <Folder Include="Validation\" />
   </ItemGroup>
 
 </Project>

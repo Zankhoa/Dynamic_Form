@@ -1,5 +1,4 @@
 ﻿using dynamic_form_system.Data;
-using dynamic_form_system.Entities;
 using dynamic_form_system.Interface;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,8 +12,7 @@ namespace dynamic_form_system.Repository
         {
             _context = context;
         }
-
-        public async Task<IEnumerable<FormField>> GetFieldsByFormIdAsync(Guid formId)
+        public async Task<IEnumerable<FormField>> GetListFieldByFormIdAsync(Guid formId)
         {
             return await _context.FormFields.Where(f => f.FormId == formId).AsNoTracking().ToListAsync();
         }

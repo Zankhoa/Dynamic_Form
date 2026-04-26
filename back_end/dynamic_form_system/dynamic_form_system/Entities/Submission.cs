@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace dynamic_form_system.Entities;
+namespace dynamic_form_system.Data;
 
 public partial class Submission
 {
@@ -11,11 +11,11 @@ public partial class Submission
 
     public Guid? UserId { get; set; }
 
-    public DateTime? SubmittedAt { get; set; }
+    public DateTime SubmittedAt { get; set; }
 
     public string Data { get; set; } = null!;
 
-    public string? ExtractedCity { get; set; }
-
     public virtual Form Form { get; set; } = null!;
+
+    public virtual User? User { get; set; }
 }

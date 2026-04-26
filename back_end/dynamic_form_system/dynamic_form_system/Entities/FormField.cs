@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace dynamic_form_system.Entities;
+namespace dynamic_form_system.Data;
 
 public partial class FormField
 {
@@ -15,13 +15,15 @@ public partial class FormField
 
     public string FieldType { get; set; } = null!;
 
-    public int? DisplayOrder { get; set; }
+    public int DisplayOrder { get; set; }
 
-    public bool? IsRequired { get; set; }
+    public bool IsRequired { get; set; }
 
-    public string? Configuration { get; set; }
+    public string Configuration { get; set; } = null!;
 
-    public DateTime? CreatedAt { get; set; }
+    public DateTime CreatedAt { get; set; }
+
+    public DateTime UpdatedAt { get; set; }
 
     public virtual Form Form { get; set; } = null!;
 }

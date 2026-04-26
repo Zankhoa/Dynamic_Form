@@ -56,12 +56,12 @@ namespace dynamic_form_system.Controllers.Admin
             });
         }
 
-        // 3. DELETE /api/forms/:id/fields/:fid - Xóa field
-        [HttpDelete("{fid:guid}")]
-        public async Task<IActionResult> DeleteField([FromRoute] Guid formId, [FromRoute] Guid fid)
-        {
-            await _fieldService.DeleteFieldAsync(formId, fid);
-            return Ok(new ApiResponse<object> { Message = "Xóa Field thành công" });
-        }
+        //// 3. DELETE /api/forms/:id/fields/:fid - Xóa field
+        //[HttpDelete("{fid:guid}")]
+        //public async Task<IActionResult> DeleteField([FromRoute] Guid formId, [FromRoute] Guid fid)
+        //{
+        //    await _fieldService.DeleteFieldAsync(formId, fid);
+        //    return Ok(new ApiResponse<object> { Message = "Xóa Field thành công" });
+        //}
     }
 }
