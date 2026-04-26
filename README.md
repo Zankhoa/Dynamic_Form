@@ -1,40 +1,30 @@
-# 📋 Dynamic Form System (Young Talent Assessment)
+# Dynamic Form System
+## Cấu Trúc Kiến Trúc (Architecture)
+* Dự án được xây dựng theo Layered Architecture (kiến trúc phân tầng), áp dụng chặt chẽ nguyên lý SOLID các tầng giao tiếp với nhau thông qua các Abstraction (Interfaces) nhờ cơ chế Dependency Injection (DI) mặc định của ASP.NET Core giúp giảm phụ thuộc và tăng khả năng mở rộng.
+Tầng API (Presentation Layer): Là nơi là tiếp nhận HTTP Requests, điều phối request xuống tầng Services và trả về kết quả được chuẩn hóa qua ApiResponse<T> kèm theo HTTP Status Codes phù hợp.
+Tầng BLL (Business Logic Layer): Là nơi xử lý nghiệp vụ. Chứa Services, Validators và DTOs. BLL đảm nhiệm việc mapping dữ liệu (giữa DTOs và Entities), và điều phối các thao tác xử lý dữ liệu. Nhận data từ Controller, map sang Entity, xử lý nghiệp vụ, chạy Validation và điều phối việc gọi Database. Việc xử lý logic tại đây giúp code dễ dàng được viết Unit Test mà không phụ thuộc vào cơ sở dữ liệu hay giao diện.
+Tầng DAL (Data Access Layer): Tầng chuyên biệt hóa cho việc tương tác với cơ sở dữ liệu (SQL Server), Chứa Repositories và thực hiện các thao tác CRUD và truy vấn dữ liệu thông qua Entity Framework Core kết hợp với Repository Pattern. Tầng này trừu tượng hóa toàn bộ chi tiết về cơ sở dữ liệu, đảm bảo tầng BLL ở trên không cần biết dữ liệu được lưu trữ hay truy xuất bằng công nghệ nào (Dependency Inversion).
 
-Đây là hệ thống quản lý form động (Dynamic Form) cho phép Admin cấu hình các biểu mẫu linh hoạt và Nhân viên có thể điền thông tin dựa trên các cấu hình đó. Dự án được xây dựng với mục tiêu tối ưu hóa tính **mở rộng (Scalability)**, **tổ chức code sạch (Clean Code)** và **dễ dàng vận hành**.
+----------------------------------------------------
+## Database
+* Về tổng thể, kiến trúc database thì em tạo ra 3 bang chính gồm có Forms – FormFields – Submissions (vì em không rõ nghiệp vụ hơn nên không biết về phía user em có tạo ra id và role để chia ra). Bảng Forms dùng để lưu thông tin tổng quan của một form như tiêu đề, mô tả, trạng thái và thứ tự hiển thị. Em thêm UserId giúp xác định ai là người tạo form, từ đó hỗ trợ phân quyền và quản lý. Bảng FormFields định nghĩa cấu trúc của form, trong đó mỗi field có Name (được unique trong từng form) để làm key mapping với dữ liệu submit. Thuộc tính Configuration được lưu dưới dạng JSON giúp hệ thống có thể cấu hình động cho từng loại field (ví dụ: maxLength cho text, options cho select) mà không cần thay đổi schema database. Bảng Submissions sẽ có thể lưu dữ liệu người dùng gửi lên, với cột Data dạng JSON. Thiết kế này cho phép lưu trữ dữ liệu linh hoạt theo từng form khác nhau mà không cần tạo bảng riêng cho mỗi form, giúp giảm độ phức tạp và tăng khả năng mở rộng. 
+* Em có sự dụng UNIQUEIDENTIFIER kết hợp với NEWSEQUENTIALID() để đảm bảo tính duy nhất và phù hợp với hệ thống có khả năng scale hoặc phân tán, đồng thời giảm fragmentation so với GUID ngẫu nhiên. Em cũng có đánh index như là lấy danh sách form active (Status, DisplayOrder), lấy danh sách field theo form (FormId, DisplayOrder) hay xem submissions mới nhất (FormId, SubmittedAt DESC). Việc sử dụng composite index kết hợp include giúp tối ưu hiệu năng truy vấn.
 
----
+----------------------------------------------------
 ## Công nghệ sử dụng
 * **Framework:** ASP.NET Core 8 Web API
-* **Ngôn ngữ:** C# 12
-* **Database:** SQL Server (Áp dụng tính năng lưu trữ JSON gốc)
+* **Ngôn ngữ:** C# 
+* **Database:** SQL Server
 * **ORM:** Entity Framework Core 8 (Code-First)
 * **Containerization:** Docker & Docker Compose
-* **Tài liệu API:** Swagger / OpenAPI
----
+-------------------------
 
-## Kiến trúc & Quyết định thiết kế (Design Decisions)
 
-Dự án này giải quyết bài toán "Dynamic Data" thông qua các quyết định kiến trúc sau:
+## Hướng dẫn chạy dự án
 
-1.  **Lưu trữ dữ liệu động (JSON Column trong SQL Server):**
-    Thay vì sử dụng mô hình EAV (Entity-Attribute-Value) truyền thống gây phình to database và chậm truy vấn, dự án lưu toàn bộ kết quả nộp form (`FormData`) dưới dạng chuỗi JSON nguyên bản trong SQL Server. hệ thống vừa đảm bảo tốc độ Insert cực nhanh vừa giữ được tính an toàn dữ liệu.
+Dự án hỗ trợ 2 cách chạy: Sử dụng Docker hoặc chạy trực tiếp trên máy tính.
 
-2.  **Validation động (Strategy Pattern & Factory):**
-    Logic kiểm tra tính hợp lệ của dữ liệu (Text, Number, Date, Color, Select) được tách biệt hoàn toàn khỏi Controller/Service thông qua `FieldValidatorFactory`. Điều này tuân thủ nguyên lý **Open/Closed Principle (OCP)**: Khi cần thêm loại field mới (vd: Email, File), chỉ cần thêm class Validator mới mà không cần sửa đổi code cũ.
-
-3.  **Tổ chức Code (N-Tier Architecture):**
-    * **Controller:** chỉ nhận Request và trả Response.
-    * **Service:** Chứa business logic, không phụ thuộc vào framework HTTP.
-    * **Repository(Data):** Đóng gói logic giao tiếp với EF Core.
-    * **Middleware:** Bắt lỗi tập trung (`GlobalExceptionMiddleware`) giúp mọi response lỗi đều có cùng một định dạng chuẩn.
----
-
-## 🛠 Hướng dẫn chạy dự án
-
-Dự án hỗ trợ 2 cách chạy: Sử dụng Docker (Khuyên dùng) hoặc chạy trực tiếp trên máy tính.
-
-### CÁCH 1: Chạy bằng Docker (Nhanh nhất - Khuyên dùng)
-
+### CÁCH 1: Chạy bằng Docker 
 **Yêu cầu:** Máy tính đã cài đặt [Docker Desktop](https://www.docker.com/products/docker-desktop/). Bạn không cần cài đặt .NET SDK hay SQL Server.
 
 1. Mở Terminal / Command Prompt tại thư mục gốc của dự án (nơi có file `docker-compose.yml`).
@@ -44,14 +34,156 @@ Dự án hỗ trợ 2 cách chạy: Sử dụng Docker (Khuyên dùng) hoặc ch
    ```
 3. Chờ khoảng 1-2 phút để Docker tải image và khởi động.
 (Lưu ý: API đã được cấu hình tự động chạy EF Core Migrations khi khởi động, nên Database và các bảng sẽ được tự động tạo sẵn).
-### CÁCH 2: Chạy Local (Thủ công)
-Yêu cầu: Máy tính đã cài đặt .NET 8 SDK và có sẵn SQL Server (LocalDB hoặc bản đầy đủ).
-Mở file appsettings.json trong project dynamic_form_system và cấu hình lại chuỗi DefaultConnection cho khớp với SQL Server của bạn.
-Mở Terminal tại thư mục DynamicForm.API và chạy lệnh cập nhật Database:
+### CÁCH 2: Chạy Local (Thủ công) 
+**Note::**
+- Sự dung bản .NET 8 SDK
+- Có SQL Server  
+
+**Bước 1:** Cấu hình database  
+Mở file `appsettings.json` trong project `dynamic_form_system` và chỉnh lại chuỗi `DefaultConnection` cho phù hợp với SQL Server của bạn.
+
+**Bước 2:** Cập nhật database
+Mở Terminal tại thư mục DynamicForm.
+
 ```bash
 dotnet ef database update
 ```
 Khởi chạy ứng dụng:
+
 ```Bash
 dotnet run
 ```
+----------------------------------------
+## API Documentation (Swagger)
+
+* Sau khi ứng dụng khởi chạy thành công, có thể truy cập giao diện Swagger để xem tài liệu chi tiết và test trực tiếp các API:
+
+- **URL (Docker):** http://localhost:8080/swagger  
+- **URL (Local):** https://localhost:<port>/swagger  
+
+### Các luồng nghiệp vụ cơ bản (API Workflows)
+
+**Dành cho Quản trị viên (Admin):**
+
+#### Form Management
+
+* `[POST] /api/forms`: Tạo form và field.
+
+```json
+{
+  "title": "Khảo sát nhân viên",
+  "description": "Form đánh giá hiệu suất quý 1",
+  "displayOrder": 1,
+  "status": "Active",
+  "fields": [
+    {
+      "name": "FullName",
+      "label": "Họ và tên",
+      "fieldType": "text",
+      "displayOrder": 1,
+      "isRequired": true,
+      "configuration": "{ \"maxLength\": 50 }"
+    },
+    {
+      "name": "age",
+      "label": "Tuổi",
+      "fieldType": "number",
+      "displayOrder": 2,
+      "isRequired": false,
+      "configuration": "{ \"min\": 18, \"max\": 60 }"
+    }
+  ]
+}
+```
+
+* `[GET] /api/forms/{id}`: Lấy form theo id của form 
+
+
+* `[PUT] /api/forms/{id}`: Update thông tin form 
+
+```json
+{
+  "title": "Khảo sát nhân viên 2026",
+  "description": "Form đánh giá hiệu suất quý 2026",
+  "displayOrder": 1,
+  "status": "Draft"
+}```
+
+* `[PUT] /api/forms/{id}`: Update thông tin form 
+
+```json
+{
+  "title": "Khảo sát nhân viên 2026",
+  "description": "Form đánh giá hiệu suất quý 2026",
+  "displayOrder": 1,
+  "status": "Draft"
+}```
+
+----------------------
+
+#### Field Management
+
+* `[POST] /api/forms/{formId}/fields`: Tạo field mới 
+
+```json
+{
+  "name": "FullName",
+  "label": "Họ và tên nhân viên",
+  "fieldType": "text",
+  "isRequired": true,
+  "configuration": {
+    "maxLength": 20,
+    "minLength": 3,
+    "placeholder": "Nhập họ tên",
+    "regex": "^[A-Za-zÀ-ỹ\\s]+$"
+  },
+  "displayOrder": 1
+}
+```
+
+* `[PUT] /api/forms/{formId}/fields/{fid}`: Update field   
+
+```json
+{
+  "name": "FullName",
+  "label": "Họ và tên nhân viên",
+  "fieldType": "text",
+  "isRequired": true,
+  "configuration": {
+    "maxLength": 20
+  },
+  "displayOrder": 2
+}
+```
+
+* `[PUT] /api/forms/{formId}/fields/reorder`: update lại thứ tự của field 
+ 
+```json
+{
+  "fields": [
+    {
+      "id": "475B0294-CD1F-4B88-987C-039A202F61EC",
+      "displayOrder": 1
+    }
+  ]
+}
+```
+Note: id sẽ dựa vào form mà mình vừa tạo  
+
+----------
+**Dành cho nhân viên (SW):**
+
+#### Submissions
+* `[GET] /api/forms/active`: lấy danh sách form active cho nhân viên 
+
+
+* `[POST] /api/forms/{id}/submit`: submit data được điền trong form 
+ 
+```json
+{
+  "data": "{\"FullName\": \"Nguyễn Văn A\", \"age\": 25}"
+}
+```
+
+* `[GET] /api/submissions`: xem lại những bài đã nộp
+

@@ -46,6 +46,7 @@ namespace dynamic_form_system.Services
             existingField.Name = request.Name;
             existingField.Label = request.Label;
             existingField.FieldType = request.FieldType;
+            existingField.DisplayOrder = request.DisplayOrder;
             existingField.IsRequired = request.IsRequired;
             existingField.Configuration = request.Configuration;
             await _fieldRepository.Update(existingField);

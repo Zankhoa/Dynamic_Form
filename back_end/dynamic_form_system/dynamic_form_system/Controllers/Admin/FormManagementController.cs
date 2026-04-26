@@ -9,11 +9,11 @@ namespace dynamic_form_system.Controllers.Admin
 {
     [ApiController]
     [Route("api/forms")]
-    public class FormsController : ControllerBase
+    public class FormManagementController : ControllerBase
     {
         private readonly IFormService _IformService;
 
-        public FormsController(IFormService IformService)
+        public FormManagementController(IFormService IformService)
         {
             _IformService = IformService;
         }
@@ -32,11 +32,11 @@ namespace dynamic_form_system.Controllers.Admin
 
         // POST /api/forms - create new form for admin
         [HttpPost]
-        public async Task<ActionResult<ApiResponse<Guid>>> CreateForms([FromBody] CreateFormRequestDto request)
+        public async Task<ActionResult<ApiResponse<Guid>>> CreateForms([FromBody] CreateFormRequestDto request, Guid userId)
         {
             try
             {
-                var formId = await _IformService.CreateFormAsync(request);
+                var formId = await _IformService.CreateFormAsync(request,userId );
                 var response = new ApiResponse<Guid>
                 {
                     Success = true,

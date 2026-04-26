@@ -17,14 +17,11 @@ namespace dynamic_form_system.Controllers.Employee
             _submissionService = submissionService;
         }
 
-        // 1. Danh sách form active, sắp theo thứ tự
-        // Endpoint: GET /api/forms/active
+        //  GET /api/forms/active -- get list data form active
         [HttpGet("api/forms/active")]
         public async Task<ActionResult<ApiResponse<IEnumerable<FormAdminListDto>>>> GetActiveForms()
         {
-            // Gọi hàm lấy danh sách form có Status = "Active" từ Service
             var activeForms = await _formService.GetActiveFormsAsync();
-
             return Ok(new ApiResponse<IEnumerable<FormAdminListDto>>
             {
                 Message = "Lấy danh sách Form thành công",
@@ -32,37 +29,24 @@ namespace dynamic_form_system.Controllers.Employee
             });
         }
 
-        /// <summary>
-        /// 2. Nhân viên submit form
-        /// Endpoint: POST /api/forms/{id}/submit
-        /// </summary>
+        // POST /api/forms/{id}/submit -- submit form data
         [HttpPost("api/forms/{id:guid}/submit")]
         public async Task<ActionResult<ApiResponse<object>>> SubmitForm([FromRoute] Guid id, [FromBody] SubmitFormRequestDto request)
         {
-            // TODO: Sau này làm tính năng Đăng nhập, bạn sẽ lấy UserID từ Token ở đây
-            Guid? currentUserId = null;
-
-            // Logic kiểm tra JSON, validate dữ liệu đã có Validator gánh vác
-            await _submissionService.SubmitAsync(id, currentUserId, request);
-
+            await _submissionService.SubmitAsync(id, request);
             return Ok(new ApiResponse<object>
             {
                 Message = "Nộp form thành công!"
             });
         }
 
-        /// <summary>
-        /// 3. Xem lại danh sách bài đã submit
-        /// Endpoint: GET /api/submissions
-        /// </summary>
+        // GET /api/submissions -- get data submission submited
         [HttpGet("api/submissions")]
-        public async Task<ActionResult<ApiResponse<IEnumerable<SubmissionHistoryDto>>>> GetMySubmissions()
+        public async Task<ActionResult<ApiResponse<IEnumerable<SubmissionHistoryDto>>>> GetMySubmissionsAsync()
         {
-            // TODO: Lấy UserID thực tế từ JWT Token
-            Guid? currentUserId = null;
+            Guid? currentUserId = Guid.Parse("1BE5A09D-2240-43CC-8376-5944631D2ED3");
 
             var history = await _submissionService.GetMySubmissionsAsync(currentUserId);
-
             return Ok(new ApiResponse<IEnumerable<SubmissionHistoryDto>>
             {
                 Message = "Lấy lịch sử nộp bài thành công",

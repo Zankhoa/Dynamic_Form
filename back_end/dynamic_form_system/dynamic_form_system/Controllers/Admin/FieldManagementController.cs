@@ -7,11 +7,11 @@ namespace dynamic_form_system.Controllers.Admin
 {
     [ApiController]
     [Route("api/forms/{formId:guid}/fields")]
-    public class FieldsController : ControllerBase
+    public class FieldManagementController : ControllerBase
     {
         private readonly IFieldService _fieldService;
 
-        public FieldsController(IFieldService fieldService)
+        public FieldManagementController(IFieldService fieldService)
         {
             _fieldService = fieldService;
         }
@@ -41,7 +41,6 @@ namespace dynamic_form_system.Controllers.Admin
         {
             if (request == null || request.Fields == null || request.Fields.Count == 0)
             {
-                // Nếu class ApiResponse của bạn có thuộc tính Success (bool), hãy set nó = false ở đây
                 return BadRequest(new ApiResponse<object>
                 {
                     // Success = false, 

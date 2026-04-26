@@ -23,10 +23,13 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(conn
 
 builder.Services.AddScoped<IFieldRepository, FieldRepository>();
 builder.Services.AddScoped<IFormRepository, FormRepository>();
+builder.Services.AddScoped<ISubmissionRepository, SubmissionRepository>();
 builder.Services.AddScoped<IFormService, FormService>();
 builder.Services.AddScoped<IFieldService, FieldService>();
+builder.Services.AddScoped<ISubmissionService, SubmissionService>();
 builder.Services.AddScoped<IFieldValidate, FieldValidate>();
 builder.Services.AddScoped<IFormValidate, FormValidate>();
+builder.Services.AddScoped<ISubmissionValidate, SubmissionValidate>();
 
 
 var app = builder.Build();

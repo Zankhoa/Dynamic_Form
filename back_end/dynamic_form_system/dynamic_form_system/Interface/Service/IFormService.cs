@@ -6,7 +6,7 @@ namespace dynamic_form_system.Interface
     public interface IFormService
     {
         Task<PagedResult<FormAdminListDto>> GetAllFormsAsync(int page, int pageSize);
-        Task<Guid> CreateFormAsync(CreateFormRequestDto request);
+        Task<Guid> CreateFormAsync(CreateFormRequestDto request, Guid userId);
         Task<FormDetailDto> GetFormByIdAsync(Guid id);
         Task UpdateFormAsync(Guid id, UpdateFormRequestDto request);
         Task DeleteFormAsync(Guid id);

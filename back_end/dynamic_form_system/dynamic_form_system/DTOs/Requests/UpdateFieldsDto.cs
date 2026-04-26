@@ -13,6 +13,7 @@ namespace dynamic_form_system.DTOs.Requests
 
         [Required]
         public string FieldType { get; set; }
+        public int DisplayOrder { get; set; }
 
         public bool IsRequired { get; set; }
         public string Configuration { get; set; } = "{}";

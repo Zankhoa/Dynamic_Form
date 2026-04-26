@@ -1,8 +1,9 @@
 ﻿using dynamic_form_system.Data;
 using dynamic_form_system.DTOs.Requests;
-using dynamic_form_system.Interface;
 using dynamic_form_system.Interface.Validate;
 using dynamic_form_system.Middlewares;
+using System;
+using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 
@@ -10,111 +11,120 @@ namespace dynamic_form_system.Validation
 {
     public class SubmissionValidate : ISubmissionValidate
     {
-        private readonly IFormRepository _formRepository;
-        private readonly IFieldRepository _fieldRepository;
-
-        public SubmissionValidate(IFormRepository formRepository, IFieldRepository fieldRepository)
+        public void ValidateSubmission(Form form, SubmitFormRequestDto request)
         {
-            _formRepository = formRepository;
-            _fieldRepository = fieldRepository;
-        }
-
-        public async Task ValidateForSubmitAsync(Guid formId, SubmitFormRequestDto request)
-        {
-            // 1. Kiểm tra Form
-            var form = await _formRepository.GetFormByIdAsync(formId);
-            if (form == null || form.Status != "Active")
-            {
-                throw new KeyNotFoundException("Form không tồn tại hoặc hiện đang bị khóa.");
-            }
-
-            // 2. Validate cục JSON cơ bản
-            if (string.IsNullOrWhiteSpace(request.Data))
-            {
-                throw new ArgumentException("Dữ liệu nộp lên không được để trống.");
-            }
-
-            JsonDocument jsonDoc;
-            try { jsonDoc = JsonDocument.Parse(request.Data); }
-            catch (JsonException)
-            {
-                throw new ArgumentException("Định dạng dữ liệu không phải JSON hợp lệ.");
-            }
-
-            // 3. Lấy cấu hình các field và soi chiếu
-            var formFields = await _fieldRepository.GetListFieldByFormIdAsync(formId);
-            var root = jsonDoc.RootElement;
             var errors = new Dictionary<string, string>();
 
-            foreach (var field in formFields)
+            // 1. Kiểm tra chuỗi JSON đầu vào có bị rỗng không
+            if (string.IsNullOrWhiteSpace(request.Data))
             {
-                bool hasValue = root.TryGetProperty(field.Label, out JsonElement element);
-                string stringValue = hasValue ? element.ToString() : null;
-                bool isEmpty = string.IsNullOrWhiteSpace(stringValue);
+                throw new ValidationAppException ( new Dictionary<string, string>
+                { 
+                    { "Data", "Dữ liệu nộp không được để trống." } 
+                });
+            }
 
-                if (isEmpty)
+            Dictionary<string, JsonElement> submittedData;
+            try
+            {
+                // 2. Chuyển chuỗi JSON của Frontend thành dạng Dictionary để dễ bóc tách
+                submittedData = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(request.Data);
+            }
+            catch (JsonException)
+            {
+                throw new ValidationAppException(new Dictionary<string, string>
+                { { "Data", "Định dạng JSON gửi lên không hợp lệ." } });
+            }
+
+            if (submittedData == null) submittedData = new Dictionary<string, JsonElement>();
+
+            // 3. Duyệt qua TỪNG CÂU HỎI (Field) mà Form đã cấu hình trong Database
+            foreach (var field in form.FormFields)
+            {
+                // Tìm xem người dùng có nộp trường này lên không
+                bool hasValue = submittedData.TryGetValue(field.Name, out var element) &&
+                                element.ValueKind != JsonValueKind.Null &&
+                                element.ValueKind != JsonValueKind.Undefined &&
+                                element.ToString() != ""; // Cả chuỗi rỗng cũng tính là không có
+
+                // BƯỚC A: Kiểm tra trường Bắt buộc (IsRequired)
+                if (field.IsRequired && !hasValue)
                 {
-                    errors.Add(field.Label, $"Trường '{field.Label}' không được để trống.");
-                    continue;
+                    errors.Add(field.Name, $"Trường '{field.Label}' là bắt buộc điền.");
+                    continue; // Đã thiếu thì khỏi cần validate thêm logic bên dưới
                 }
 
-                // Check Config (Regex, Min, Max...)
-                if (!isEmpty)
+                // Nếu không bắt buộc và người dùng không điền thì an toàn bỏ qua
+                if (!hasValue) continue;
+
+                // 4. Đọc cấu hình logic (Configuration) của Field này
+                Dictionary<string, JsonElement> config = null;
+                if (!string.IsNullOrWhiteSpace(field.Configuration) && field.Configuration != "{}")
                 {
-                    ValidateFieldRules(field, stringValue, errors);
+                    try
+                    {
+                        config = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(field.Configuration);
+                    }
+                    catch { /* Bỏ qua nếu cấu hình trong DB bị lưu lỗi */ }
                 }
-            }
 
-            // 4. Nếu gom được bất kỳ lỗi nào -> Ném bom ra cho Middleware chụp!
-            if (errors.Count > 0)
-            {
-                throw new ValidationAppException("Dữ liệu nộp lên không hợp lệ.", errors);
-            }
-        }
+                string stringValue = element.ToString();
 
-        private void ValidateFieldRules(FormField field, string stringValue, Dictionary<string, string> errors)
-        {
-            JsonDocument configDoc = null;
-            if (!string.IsNullOrWhiteSpace(field.Configuration) && field.Configuration != "{}")
-            {
-                try { configDoc = JsonDocument.Parse(field.Configuration); }
-                catch { return; }
-            }
-            var configRoot = configDoc?.RootElement;
-
-            switch (field.FieldType.ToLower())
-            {
-                case "number":
-                    if (!decimal.TryParse(stringValue, out decimal numValue))
+                // BƯỚC B: Chạy rule Validate theo từng loại dữ liệu
+                if (field.FieldType.ToLower() == "text")
+                {
+                    // Logic 1: Kiểm tra độ dài tối đa (maxLength)
+                    if (config != null && config.ContainsKey("maxLength"))
                     {
-                        errors.Add(field.Label, $"'{field.Label}' phải là con số.");
-                    }
-                    else if (configRoot.HasValue)
-                    {
-                        if (configRoot.Value.TryGetProperty("min", out JsonElement minEl) && minEl.TryGetDecimal(out decimal min) && numValue < min)
-                            errors.Add(field.Label, $"'{field.Label}' phải >= {min}.");
-                        if (configRoot.Value.TryGetProperty("max", out JsonElement maxEl) && maxEl.TryGetDecimal(out decimal max) && numValue > max)
-                            errors.Add(field.Label, $"'{field.Label}' phải <= {max}.");
-                    }
-                    break;
-
-                case "text":
-                    if (configRoot.HasValue)
-                    {
-                        if (configRoot.Value.TryGetProperty("maxLength", out JsonElement maxLenEl) && maxLenEl.TryGetInt32(out int maxLen) && stringValue.Length > maxLen)
-                            errors.Add(field.Label, $"'{field.Label}' không vượt quá {maxLen} ký tự.");
-
-                        if (configRoot.Value.TryGetProperty("pattern", out JsonElement patternEl))
+                        int maxLength = config["maxLength"].GetInt32();
+                        if (stringValue.Length > maxLength)
                         {
-                            var regexPattern = patternEl.GetString();
-                            if (!string.IsNullOrEmpty(regexPattern) && !Regex.IsMatch(stringValue, regexPattern))
-                            {
-                                string customMsg = configRoot.Value.TryGetProperty("patternMessage", out JsonElement msgEl) ? msgEl.GetString() : "Sai định dạng.";
-                                errors.Add(field.Label, $"'{field.Label}': {customMsg}");
-                            }
+                            errors.Add(field.Name, $"Trường '{field.Label}' không được vượt quá {maxLength} ký tự.");
                         }
                     }
-                    break;
+
+                    // Logic 2: Kiểm tra theo định dạng Regex (vd: Email, Số điện thoại)
+                    if (config != null && config.ContainsKey("pattern"))
+                    {
+                        string pattern = config["pattern"].GetString();
+                        if (!Regex.IsMatch(stringValue, pattern))
+                        {
+                            string msg = config.ContainsKey("patternMessage")
+                                ? config["patternMessage"].GetString()
+                                : $"Trường '{field.Label}' không đúng định dạng yêu cầu.";
+                            errors.Add(field.Name, msg);
+                        }
+                    }
+                }
+                else if (field.FieldType.ToLower() == "number")
+                {
+                    // Phải là một con số hợp lệ mới cho qua
+                    if (!decimal.TryParse(stringValue, out decimal numValue))
+                    {
+                        errors.Add(field.Name, $"Trường '{field.Label}' phải là một con số hợp lệ.");
+                        continue;
+                    }
+
+                    // Logic 3: Kiểm tra giá trị nhỏ nhất (min)
+                    if (config != null && config.ContainsKey("min"))
+                    {
+                        decimal min = config["min"].GetDecimal();
+                        if (numValue < min) errors.Add(field.Name, $"Trường '{field.Label}' không được nhỏ hơn {min}.");
+                    }
+
+                    // Logic 4: Kiểm tra giá trị lớn nhất (max)
+                    if (config != null && config.ContainsKey("max"))
+                    {
+                        decimal max = config["max"].GetDecimal();
+                        if (numValue > max) errors.Add(field.Name, $"Trường '{field.Label}' không được lớn hơn {max}.");
+                    }
+                }
+            }
+
+            // 5. Nếu phát hiện ra dù chỉ 1 lỗi nhỏ, gom tất cả lại và ném thẳng ra Middleware!
+            if (errors.Count > 0)
+            {
+                throw new ValidationAppException(errors);
             }
         }
     }

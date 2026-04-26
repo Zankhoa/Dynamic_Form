@@ -65,3 +65,12 @@ INCLUDE (Name, Label, FieldType, IsRequired);
 -- GET /api/submissions 
 CREATE NONCLUSTERED INDEX IX_Submissions_FormId_SubmittedAt 
 ON Submissions(FormId, SubmittedAt DESC);
+------------------------------------------------------------------------------
+-- insert db 
+INSERT INTO Users (Id, Roles)
+VALUES 
+('103F42D6-EE32-4CA9-BED1-137989DE5C2C', 'Employee'),
+('1BE5A09D-2240-43CC-8376-5944631D2ED3', 'Admin');
+
+
+

@@ -26,7 +26,8 @@ namespace dynamic_form_system.Repository
                 {
                     Id = f.Id,
                     Title = f.Title,
-                    //DisplayOrder = f.DisplayOrder,
+                    DisplayOrder = f.DisplayOrder,
+                    Description = f.Description,
                     Status = f.Status,
                     CreatedAt = f.CreatedAt
                 }).ToListAsync();
@@ -62,7 +63,7 @@ namespace dynamic_form_system.Repository
                 Id = f.Id,
                 Title = f.Title,
                 Description = f.Description,
-                //DisplayOrder = f.DisplayOrder,
+                DisplayOrder = f.DisplayOrder,
                 Status = f.Status,
                 CreatedAt = f.CreatedAt,
                 UpdatedAt = f.UpdatedAt,
@@ -73,8 +74,8 @@ namespace dynamic_form_system.Repository
                     Name = field.Name,
                     Label = field.Label,
                     FieldType = field.FieldType,
-                    //DisplayOrder = field.DisplayOrder,
-                    //IsRequired = field.IsRequired,
+                    DisplayOrder = field.DisplayOrder,
+                    IsRequired = field.IsRequired,
                     Configuration = field.Configuration
                 }).ToList()
             }).FirstOrDefaultAsync();
@@ -90,11 +91,11 @@ namespace dynamic_form_system.Repository
 
         public async Task<IEnumerable<FormAdminListDto>> GetActiveFormsAsync()
         {
-            var activeForms = await _context.Forms.Where(f => f.Status == "Active")
-                //rderBy(f => f.DisplayOrder)
+            var activeForms = await _context.Forms.Where(f => f.Status == "Active").OrderBy(f => f.DisplayOrder)
                 .OrderByDescending(f => f.CreatedAt).Select(f => new FormAdminListDto {
                     Id = f.Id,
                     Title = f.Title,
+                    DisplayOrder = f.DisplayOrder,
                     Description = f.Description,
                     Status = f.Status,
                     CreatedAt = f.CreatedAt
