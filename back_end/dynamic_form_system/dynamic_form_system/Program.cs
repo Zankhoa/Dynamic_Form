@@ -48,18 +48,16 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-// T? ??ng Apply Migration khi app kh?i ??ng (R?t quan tr?ng cho Docker)
+// Apply Migration khi app run 
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     try
     {
-        // L?nh này t??ng ???ng v?i 'dotnet ef database update'
         dbContext.Database.Migrate();
     }
     catch (Exception ex)
     {
-        // Log l?i n?u database ch?a s?n sàng
         Console.WriteLine($"Could not run migrations: {ex.Message}");
     }
 }
