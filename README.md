@@ -54,7 +54,7 @@ Mở file `appsettings.json` trong project `dynamic_form_system` và chỉnh l�
 dotnet restore
 ```  
 
- Khởi chạy ứng dụng:
+ Khởi chạy ứng dụng (hoặc anh/chị có thể chạy trong IDE cho dễ và nhanh chóng):
 
 ```Bash
 dotnet run
@@ -65,8 +65,10 @@ dotnet run
 * Sau khi ứng dụng khởi chạy thành công, có thể truy cập giao diện Swagger để xem tài liệu chi tiết và test trực tiếp các API:
 
 - **URL (Docker):** http://localhost:8080/swagger
-* Note: Nếu cổng 8080 không được thì anh/chị có thể chuyển sang cổng khác ạ 
-- **URL (Local):** https://localhost:"Port"/swagger  
+* Note: Nếu cổng 8080 không được thì anh/chị có thể chuyển sang cổng khác ạ
+ 
+- **URL (Local):** http://localhost:"Port"/swagger
+* Note: Với "http://localhost:"Port" thì anh chị hãy lấy trong terminal nếu anh chị vừa chạy bằng terminal  
 
 ### Các luồng nghiệp vụ cơ bản (API Workflows)
 
