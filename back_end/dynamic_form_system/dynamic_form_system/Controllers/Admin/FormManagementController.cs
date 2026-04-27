@@ -100,7 +100,7 @@ namespace dynamic_form_system.Controllers.Admin
                 {
                     Success = true,
                     Message = "Xóa form thành công!",
-                    Data = true // Trả về true để báo hiệu đã xóa xong
+                    Data = true 
                 };
                 return Ok(response);
             }

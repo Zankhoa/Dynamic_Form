@@ -4,6 +4,7 @@
     {
         public bool Success { get; set; } = true;
         public string Message { get; set; } = string.Empty;
-        public Dictionary<string, string[]>? Errors { get; set; } // when error can response to use
+        public T? Data { get; set; }
+        public Dictionary<string, string[]>? Errors { get; set; } 
     }
 }

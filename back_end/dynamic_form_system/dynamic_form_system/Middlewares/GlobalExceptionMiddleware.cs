@@ -30,23 +30,18 @@ namespace dynamic_form_system.Middlewares
 
         private static Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
-            // 1. Mặc định là lỗi 500 (Lỗi Server)
             var statusCode = HttpStatusCode.InternalServerError;
             var message = "Đã xảy ra lỗi hệ thống nghiêm trọng. Vui lòng liên hệ Admin.";
-
-            // 2. Tùy biến mã lỗi HTTP dựa trên loại Exception (Bắt bệnh)
             if (exception is KeyNotFoundException)
             {
-                statusCode = HttpStatusCode.NotFound; // 404
-                message = exception.Message; // Vd: "Không tìm thấy Form"
+                statusCode = HttpStatusCode.NotFound; 
+                message = exception.Message; 
             }
             else if (exception is ArgumentException || exception is InvalidOperationException)
             {
-                statusCode = HttpStatusCode.BadRequest; // 400
-                message = exception.Message; // Vd: "Trùng tên Field"
+                statusCode = HttpStatusCode.BadRequest; 
+                message = exception.Message; 
             }
-            // Nếu bạn dùng FluentValidation, có thể bắt thêm ValidationException ở đây
-            // else if (exception is ValidationException valEx) { ... }
 
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)statusCode;
@@ -56,13 +51,10 @@ namespace dynamic_form_system.Middlewares
                 Success = false,
                 Message = message,
                 Data = null,
-                Errors = null // Chỗ này có thể map chi tiết lỗi nếu là ValidationException
+                Errors = null 
             };
-
-            // Ép kiểu JSON viết thường chữ cái đầu (camelCase) cho đúng chuẩn Javascript
             var jsonOptions = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
             var result = JsonSerializer.Serialize(errorResponse, jsonOptions);
-
             return context.Response.WriteAsync(result);
         }
     }
